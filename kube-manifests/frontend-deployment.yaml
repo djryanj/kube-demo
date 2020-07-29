@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kube-web
+spec:
+  selector:
+    matchLabels:
+      app: kube-demo-web
+      tier: frontend
+      track: stable
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: kube-demo-web
+        tier: frontend
+        track: stable
+    spec:
+      containers:
+        - name: web
+          image: "djryanj/kube-demo-web"
+          ports:
+            - containerPort: 80

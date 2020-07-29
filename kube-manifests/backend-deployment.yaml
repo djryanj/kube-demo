@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kube-app
+spec:
+  selector:
+    matchLabels:
+      app: kube-demo-app
+      tier: backend
+      track: stable
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: kube-demo-app
+        tier: backend
+        track: stable
+    spec:
+      containers:
+        - name: app
+          image: "djryanj/kube-demo-app:latest"
+          env:
+            - name: DATABASE
+              valueFrom:
+                secretKeyRef:
+                  name: db-secret
+                  key: uri
+          ports:
+            - containerPort: 3000
