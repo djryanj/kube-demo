@@ -4,11 +4,19 @@ require('dotenv').config();
 var http = require('http');
 var debug = require('debug')('kube-demo-app:app');
 
+
 const mongoose = require('mongoose');
 mongoose.connect(process.env.DATABASE, {
   useNewUrlParser: true,
   useUnifiedTopology: true
 });
+
+process.on('SIGINT', () => {
+  console.log('Received SIGINT. Closing Mongoose connections and shutting down.');
+  mongoose.disconnect;
+  process.exit(1);
+});
+
 
 mongoose.connection
   .on('open', () => {

@@ -10,6 +10,12 @@ mongoose.connect(process.env.DATABASE, {
   useUnifiedTopology: true
 });
 
+process.on('SIGINT', () => {
+  console.log('Received SIGINT. Closing Mongoose connections and shutting down.');
+  mongoose.disconnect;
+  process.exit(1);
+});
+
 mongoose.connection
   .on('open', () => {
     console.log('Mongoose connection open');
